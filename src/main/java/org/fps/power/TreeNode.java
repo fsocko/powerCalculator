@@ -62,7 +62,7 @@ public class TreeNode {
         return this;
     }
 
-    public double calculateThisPowerSum() throws Exception {
+    public double calculateThisPowerSum() {
         double sum = power;
         if (this == null) return -1;
         Queue<TreeNode> queue = new LinkedList<>();
@@ -78,9 +78,6 @@ public class TreeNode {
             for (TreeNode node : queue) {
                 sum += node.power;
             }
-        }
-        if(this.powerLimit > 0 && sum > this.powerLimit){
-            throw new Exception("powerLimit exceeded!");
         }
         return sum;
     }
