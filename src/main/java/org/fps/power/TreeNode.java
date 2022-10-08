@@ -7,31 +7,62 @@ import java.util.Queue;
 public class TreeNode {
 
     private static final double VOLT_CONSTANT = 240;
+
+    static enum Unit {
+        WATT, AMP;
+    }
+
     double power;
+    double powerLimit;
     String name;
     List<TreeNode> children = new LinkedList<>();
 
-    TreeNode(String name, int power){
+    TreeNode(double power) {
+        this.power = power;
+        this.powerLimit = -1;
+        this.name = "unnamed_node_" + this.power;
+    }
+
+    TreeNode(String name, double power) {
         this.name = name;
         this.power = power;
+        this.powerLimit = -1;
     }
-    TreeNode(int power){
+
+    TreeNode(String name, double power, double powerLimit) {
+        this.name = name;
         this.power = power;
-        this.name = "unnamed_node_" + this.power;
-
+        this.powerLimit = powerLimit;
     }
 
-    TreeNode(int data,List<TreeNode> child){
-        power = data;
-        children = child;
+    TreeNode(String name, double power, Unit unit) {
+        this.name = name;
+        this.power = power;
+        this.powerLimit = -1;
+        //P = IV
+        if(unit.equals(Unit.AMP)){
+            this.power = power * VOLT_CONSTANT;
+        }
     }
+
+    //If for some reason, Watts are not available.
+    TreeNode(String name, double power, double powerLimit, Unit unit) {
+        this.name = name;
+        this.power = power;
+        this.powerLimit = powerLimit;
+        //P = IV
+        if(unit.equals(Unit.AMP)){
+            this.power = power * VOLT_CONSTANT;
+        }
+    }
+
 
     public TreeNode addChild(final TreeNode n) {
         children.add(n);
         return this;
     }
 
-    public double calculateThisPowerSum() {
+    public double calculateThisPowerSum() throws Exception {
         double sum = power;
         if (this == null) return -1;
         Queue<TreeNode> queue = new LinkedList<>();
@@ -44,11 +75,13 @@ public class TreeNode {
                     queue.offer(item);
                 }
             }
-            for(TreeNode node : queue){
+            for (TreeNode node : queue) {
                 sum += node.power;
             }
         }
+        if(this.powerLimit > 0 && sum > this.powerLimit){
+            throw new Exception("powerLimit exceeded!");
+        }
         return sum;
     }
-
 }

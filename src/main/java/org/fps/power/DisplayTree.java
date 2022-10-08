@@ -9,28 +9,31 @@ public class DisplayTree {
 
     public static void main(final String[] args) throws Exception {
 
-        TreeNode root = new TreeNode("ROOT", 1);
-        root.children.add(new TreeNode(2));
-        root.children.add(new TreeNode(3));
-        root.children.add(new TreeNode(4));
-        //Node2 -> 2R + 5 + 6 + 7
-        root.children.get(0).children.add(new TreeNode(5));
-        root.children.get(0).children.add(new TreeNode(6));
-        root.children.get(0).children.add(new TreeNode(7));
-        //Node3 -> 3R + 8
-        root.children.get(1).children.add(new TreeNode(8));
-        //Node4 -> 4R + 9 + 10 + 11
-        root.children.get(2).children.add(new TreeNode(9));
-        root.children.get(2).children.add(new TreeNode(10));
-        root.children.get(2).children.add(new TreeNode(11));
+        TreeNode root = new TreeNode("SOCKET", 0);
+        root.children.add(new TreeNode("WALL_3SPLIT",0,3500 ));
+            root.children.get(0).children.add(new TreeNode("PRJ",1.5, TreeNode.Unit.AMP));
+            root.children.get(0).children.add(new TreeNode("FAN",40));
+            root.children.get(0).children.add(new TreeNode("EXTENSION_1",0, 3500));
+                root.children.get(0).children.get(2).children.add(new TreeNode("WIFI", 0.7, TreeNode.Unit.AMP));
+                root.children.get(0).children.get(2).children.add(new TreeNode("CLOCK", 10));
+                    root.children.get(0).children.get(2).children.add(new TreeNode("MON_EXTENSION", 0, 3500));
+                        root.children.get(0).children.get(2).children.get(0).children.add(new TreeNode("MON1", 24));
+                        root.children.get(0).children.get(2).children.get(0).children.add(new TreeNode("MON2", 24));
+                root.children.get(0).children.get(2).children.add(new TreeNode("USBx3", 0.8,TreeNode.Unit.AMP));
+                root.children.get(0).children.get(2).children.add(new TreeNode("EXTENSION_2USB", 0.8,3500));
+                    root.children.get(0).children.get(2).children.get(0).children.get(0).children.add(new TreeNode("EXT2xUSB", 24));
+                    root.children.get(0).children.get(2).children.get(0).children.get(0).children.add(new TreeNode("PERS_PC", 1.7, TreeNode.Unit.AMP));
+                    root.children.get(0).children.get(2).children.get(0).children.get(0).children.add(new TreeNode("WORK_PC", 1.7, TreeNode.Unit.AMP));
+                    root.children.get(0).children.get(2).children.get(0).children.get(0).children.add(new TreeNode("MIXER", 0.2, TreeNode.Unit.AMP));
 
-        //System.out.println(printNAryTree(root).toString());
-        printNAryTreeOld(root);
+        System.out.println(printNAryTree(root).toString());
+        //printNAryTreeOld(root);
         //calculatePowerSum(root.children.get(1));
     }
 
-    public static StringBuilder printNAryTree(TreeNode root) {
+    public static StringBuilder printNAryTree(TreeNode root) throws Exception {
         StringBuilder sb = new StringBuilder();
+        sb.append("\n");
         if (root == null) return sb;
 
         Queue<TreeNode> queue = new LinkedList<>();
@@ -44,7 +47,7 @@ public class DisplayTree {
                     queue.offer(item);
                 }
             }
-            sb.append("\n");
+            sb.append("\n\t");
         }
         return sb;
     }
@@ -57,17 +60,27 @@ public class DisplayTree {
             int len = queue.size();
             for (int i = 0; i < len; i++) { // so that we can reach each level
                 TreeNode node = queue.poll();
-                System.out.print(node.name + " ");
+                System.out.print(node.name + "> " + node.power + "w ");
                 for (TreeNode item : node.children) { // for-Each loop to iterate over all childrens
                     queue.offer(item);
                 }
             }
-            System.out.println();
+            System.out.println("");
         }
     }
 
-    public static String formatNode(TreeNode node) {
-        return node.name + "\t-> P: " + node.power + " -> pΣ: " + node.calculateThisPowerSum() + "w \n ";
+    public static String formatNode(TreeNode node) throws Exception {
+        if(node.powerLimit > 0){
+            if(node.power > node.powerLimit ){
+                return "\n" + node.name + "\t-> P: " + node.power
+                        + " -> pΣ: " + node.calculateThisPowerSum() + "w Limit:"
+                        + ColouredJavaOutput.ANSI_BG_WHITE + ColouredJavaOutput.ANSI_RED + node.powerLimit + "w" + ColouredJavaOutput.ANSI_RESET + " ";
+            }
+            return "\n" + node.name + "\t-> P: " + node.power + " -> pΣ: " + node.calculateThisPowerSum() + "w Limit:" + node.powerLimit + "w" + " ";
+        }
+        else{
+            return node.name + "\t-> P: " + node.power + "w | ";
+        }
     }
 
     public static double calculatePowerSum(TreeNode root) {

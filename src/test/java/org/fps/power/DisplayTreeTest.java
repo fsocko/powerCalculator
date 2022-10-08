@@ -11,7 +11,7 @@ class DisplayTreeTest {
     static TreeNode root;
 
     @BeforeAll
-    static void setUp() {
+    static void setUp() throws Exception {
 
         root = new TreeNode("root1->",1);
         root.children.add(new TreeNode(2));
@@ -31,7 +31,7 @@ class DisplayTreeTest {
     }
 
     @Test
-    public void testReturnSum(){
+    public void testReturnSum() throws Exception {
 
         assertEquals(20, DisplayTree.calculatePowerSum( this.root.children.get(0)));
         assertEquals(11, DisplayTree.calculatePowerSum( this.root.children.get(1)));
