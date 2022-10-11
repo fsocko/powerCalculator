@@ -8,7 +8,9 @@ import java.util.Queue;
 
 public class DisplayTree {
     public static void main(final String[] args) throws Exception {
-        new ListingTreePrinter().print(buildTree());
+        //new ListingTreePrinter().print(buildTree());
+        JsonWriteRead.writeJson((PowerNode) buildTree());
+        new ListingTreePrinter().print(JsonWriteRead.readJson());
     }
 
     public static double calculatePowerSum(PowerNode root) {

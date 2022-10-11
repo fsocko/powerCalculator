@@ -8,7 +8,7 @@ import java.util.*;
 public class PowerNode extends SimpleTreeNode {
     private static final double VOLT_CONSTANT = 240;
 
-    private final List<PowerNode> children = new LinkedList<>();
+    private final List<PowerNode> childrenPn = new LinkedList<>();
 
     @Override
     public String content() {
@@ -85,13 +85,13 @@ public class PowerNode extends SimpleTreeNode {
 
     @Override
     public List<TreeNode> children() {
-        ArrayList treeList = new ArrayList<>(children);
+        ArrayList treeList = new ArrayList<>(childrenPn);
         Collections.sort(treeList, new PowerComparatorDesc());
         return treeList;
     }
 
     public List<PowerNode> childrenAsPn() {
-        ArrayList treeList = new ArrayList<>(children);
+        ArrayList treeList = new ArrayList<>(childrenPn);
         Collections.sort(treeList, new PowerComparatorDesc());
         return treeList;
     }
@@ -100,7 +100,7 @@ public class PowerNode extends SimpleTreeNode {
         if (childNode == null) {
             throw new IllegalArgumentException("Child node must not be null, use placeholder instead");
         }
-        children.add(childNode);
+        childrenPn.add(childNode);
     }
 
     public double calculateThisPowerSum() {
@@ -131,7 +131,7 @@ public class PowerNode extends SimpleTreeNode {
             }
             return limitOKFormat(this);
             // Root node has children, no parent, no power and no power limit.
-        } else if (this.children.size() > 0 && this.powerLimit <= 0 && this.power <= 0 && this.calculateThisPowerSum() > 0) {
+        } else if (this.childrenPn.size() > 0 && this.powerLimit <= 0 && this.power <= 0 && this.calculateThisPowerSum() > 0) {
             return rootFormat(this);
         }
         //Normal device, leaf node.
