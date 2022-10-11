@@ -140,38 +140,38 @@ public class PowerNode extends SimpleTreeNode {
         }
     }
     private String limitSurpassedFormat(PowerNode powerNode) {
-        return ColouredJavaOutput.ANSI_RED + powerNode.name + "-> P: " + powerNode.power
-                + " -> Σp: " + powerNode.calculateThisPowerSum() + "W Limit: "
+        return ColouredJavaOutput.ANSI_RED + powerNode.name + "-> P :" + powerNode.power
+                + " -> Σp :" + powerNode.calculateThisPowerSum() + "W Limit: "
                 + ColouredJavaOutput.ANSI_BG_RED + ColouredJavaOutput.ANSI_BRIGHT_WHITE
-                + powerNode.powerLimit + "(" + (powerNode.calculateThisPowerSum() / powerNode.getPowerLimit()) + "%)"
+                + powerNode.powerLimit + "(" + (powerNode.calculateThisPowerSum() - powerNode.getPowerLimit()) + "W Diff)"
                 + ColouredJavaOutput.ANSI_RESET;
     }
     private String limitOKFormat(PowerNode powerNode) {
         if (powerNode.isPowerUnsure()) {
-            return ColouredJavaOutput.ANSI_GREEN + powerNode.name + "-> P: " +
+            return ColouredJavaOutput.ANSI_GREEN + powerNode.name + "-> P : " +
                     ColouredJavaOutput.ANSI_YELLOW + powerNode.power + "W (?)"
-                    + ColouredJavaOutput.ANSI_GREEN + " -> Σp: "
+                    + ColouredJavaOutput.ANSI_GREEN + " -> Σp : "
                     + powerNode.calculateThisPowerSum() + "W Limit:"
-                    + powerNode.powerLimit + "W (" + (powerNode.calculateThisPowerSum() / powerNode.getPowerLimit()) + "%)"
+                    + powerNode.powerLimit + "W (" + (powerNode.calculateThisPowerSum() - powerNode.getPowerLimit()) + "W Diff)"
                     + ColouredJavaOutput.ANSI_RESET;
         } else {
-            return ColouredJavaOutput.ANSI_GREEN + powerNode.name + "-> P: " + powerNode.power + "W -> Σp: "
+            return ColouredJavaOutput.ANSI_GREEN + powerNode.name + "-> P : " + powerNode.power + "W -> Σp : "
                     + powerNode.calculateThisPowerSum() + "W Limit:"
                     + powerNode.powerLimit + "W" + ColouredJavaOutput.ANSI_RESET;
         }
     }
     private String deviceFormat(PowerNode powerNode) {
         if (powerNode.isPowerUnsure()) {
-            return powerNode.name + "-> P: " + ColouredJavaOutput.ANSI_YELLOW + powerNode.power + "W (?)" + ColouredJavaOutput.ANSI_RESET;
+            return powerNode.name + "-> P : " + ColouredJavaOutput.ANSI_YELLOW + powerNode.power + "W (?)" + ColouredJavaOutput.ANSI_RESET;
         } else {
-            return powerNode.name + "-> P: " + powerNode.power + "W";
+            return powerNode.name + "-> P : " + powerNode.power + "W";
         }
     }
 
     private String rootFormat(PowerNode powerNode) {
         return "\nPower Report\n"
                 + "************\n\n"
-                + powerNode.name + " -> Σp: " + powerNode.calculateThisPowerSum() + "W";
+                + powerNode.name + " -<> Σp: " + powerNode.calculateThisPowerSum() + "W";
     }
 
     private class PowerComparatorDesc implements Comparator<PowerNode> {
