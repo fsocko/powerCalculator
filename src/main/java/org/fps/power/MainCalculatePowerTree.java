@@ -6,7 +6,7 @@ import hu.webarticum.treeprinter.printer.listing.ListingTreePrinter;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class DisplayTree {
+public class MainCalculatePowerTree {
     public static void main(final String[] args) throws Exception {
         //new ListingTreePrinter().print(buildTree());
         JsonWriteRead.writeJson((PowerNode) buildTree());
@@ -41,9 +41,12 @@ public class DisplayTree {
         PowerNode extR2Usb = new PowerNode("EXTENSION_R_2USB", 0.8, 3500, PowerNode.Unit.AMP);
         extR2Usb.setPowerUnsure(true);
         //Devices
+
         PowerNode fan = new PowerNode("FAN", 40);
-        PowerNode prj = new PowerNode("PRJ", 1.5, PowerNode.Unit.AMP);
+        //PowerNode prj = new PowerNode("PRJ", 1.5, PowerNode.Unit.AMP);
+        PowerNode drill = new PowerNode("DRILL", 650);
         PowerNode iron = new PowerNode("IRON", 2300);
+
         PowerNode mon1 = new PowerNode("MON1", 24);
         PowerNode mon2 = new PowerNode("MON2", 24);
         PowerNode wifi = new PowerNode("WIFI", 0.7, PowerNode.Unit.AMP);
@@ -51,7 +54,7 @@ public class DisplayTree {
         PowerNode usbx3W = new PowerNode("USBx3_White", 0.8, PowerNode.Unit.AMP);
         PowerNode persPcSwitch = new PowerNode("PERS_SWITCH", 0, 3500);
         PowerNode workPcSwitch = new PowerNode("WORK_SWITCH", 0, 3500);
-        PowerNode persPc = new PowerNode("PERS_PC", 1.7, PowerNode.Unit.AMP);
+        PowerNode persPc = new PowerNode("PERS_PC", 2.5, PowerNode.Unit.AMP);
         PowerNode workPc = new PowerNode("WORK_PC", 1.7, PowerNode.Unit.AMP);
         PowerNode mixer = new PowerNode("MIXER", 0.2, PowerNode.Unit.AMP);
 
@@ -67,8 +70,10 @@ public class DisplayTree {
 
         extL.addChild(mon1);
         extL.addChild(mon2);
-        extL.addChild(prj);
-        extL.addChild(iron);
+        //extL.addChild(prj);
+        extL.addChild(drill);
+
+        //extL.addChild(iron);
 
 
         extR2Usb.addChild(persPcSwitch);

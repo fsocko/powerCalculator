@@ -33,9 +33,8 @@ public class JsonWriteRead {
             //convert the json to  Java object (Employee)
             pn = gson.fromJson(br, PowerNode.class);
 
-        } catch (IOException e)
-        {
-        e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return pn;
     }
